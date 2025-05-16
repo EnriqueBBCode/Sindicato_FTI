@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="overflow-x-auto w-full p-3">
+  <h1 class='text-2xl p-5 font-bold'>Cuota de {{cuota.nombre}}</h1>
+
+    <div class="rounded-t-xl shadow bg-white p-3">
+        {% comment %} <h3 class="font-bold text-xl">Cuota actual: {{cuota.nombre}}</h3> {% endcomment %}
+        <div class="grid-cols-[auto_1fr] grid">
+            <div class="h-40 w-40 p-5">
+                <canvas id="myChart" width="10" height="10"></canvas>
+            </div>
+            <div>
+                <p class="px-2 pt-3 rounded hover:text-green-900 text-gray-700 text-sm">Cuota total: <span>$ {{cuota.datos.total}}</span></p>
+                <p class="px-2 rounded hover:text-green-900 text-gray-700 text-sm">Cuota recogida: <span>$ {{cuota.datos.pago}}</span></p>
+                <p class="px-2 rounded hover:text-green-900 text-gray-700 text-sm">Cuota faltante: <span>$ {{cuota.datos.no_pago}}</span></p> 
+                <hr class="my-5">
+                <p class="px-2 rounded hover:text-green-900"><i class="fas fa-users text-green-900"></i> {{cuota.datos.usuarios_pago}}/<span>{{cuota.datos.usuarios}}</span></p> 
+            </div>
+        </div>  
+        <form action="{% url 'actualizar_cuota' cuota.acta.pk %}" method="POST">
+          {% csrf_token %}
+          <table class="min-w-full bg-white border border-gray-200 shadow-lg rounded-lg">
+              <thead class="bg-green-900 text-white">
+              <tr>
+                  <th class="px-4 py-2 text-left">Usuario</th>
+                  <th class="text-center px-4 py-2 text-left">Salario</th>
+                  <th class="text-center px-4 py-2 text-left">Cuota</th>
+                  <th class="text-center px-4 py-2 text-left">Pago</th>
+              </tr>
+              </thead>
+              <tbody class="text-gray-700">
+              <!-- Ejemplo de fila -->
+              {% for parte in cuota.acta.asistencias.all %}
+              <tr class="border-t border-gray-200 hover:bg-gray-100">
+                  <td class="px-4 py-2 font-semibold text-black">{{parte.usuario.first_name}}</td>
+                  <td class="text-center px-4 py-2">$ {{parte.usuario.salario}}</td>
+                  <td class="text-center px-4 py-2">$ {{parte.usuario.cuota}}</td>
+                  <td class="text-center px-4 py-2"><input type="checkbox" name="parte" value="{{parte.pk}}" {% if parte.asistencia %}checked{% endif %} /></td>
+              </tr>
+              {% endfor %}
+              </tbody>
+          </table>
+        <button class="px-10 py-2 bg-green-900 rounded text-white font-semibold my-2 mr-0 ml-auto flex">Guardar cambios</button>
+        </form>
+    </div>
+
+</div>
+<script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const data = {
+      labels: ['Cuota entregada', 'Cuota faltante'],
+      datasets: [{
+        data: [parseInt("{{cuota.datos.pago}}"), parseInt("{{cuota.datos.no_pago}}") ], // Inicialmente 30% verde y 70% blanco
+        backgroundColor: ['#052e16', '#ddd']
+      }]
+    };
+
+    const config = {
+      type: 'doughnut',
+      data: data,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
+      }
+    };
+
+    const myChart = new Chart(ctx, config);
+
+    function updateChart(newPercentage) {
+      myChart.data.datasets[0].data = [newPercentage, 100 - newPercentage];
+      myChart.update();
+    }
+</script>
+{% endblock content %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="block w-full">
+<div class="max-w-md mx-auto w-full mt-10 bg-white p-6 rounded-lg shadow-md">
+  <h2 class="text-2xl font-bold text-green-900 mb-4">Añadir Rol</h2>
+  <form action="#" method="POST" class="w-full">
+  {% csrf_token %}
+    <!-- Campo Nombre -->
+    <div class='mt-2'>
+      <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+      <input type="text" id="nombre" name="nombre" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm p-2" placeholder="Ingresa tu nombre" required>
+    </div>
+    
+    <!-- Campo Correo -->
+    <div class='mt-2'>
+      <input type="checkbox" id="usuarios" name="usuarios" class="">
+      <label for="usuarios">Permitir gestionar usuarios</label>
+    </div>
+    <div class='mt-2'>
+      <input type="checkbox" id="roles" name="roles" class="">
+      <label for="roles">Permitir gestionar roles</label>
+    </div>
+    <div class='mt-2'>
+      <input type="checkbox" id="cuotas" name="cuotas" class="">
+      <label for="cuotas">Permitir gestionar cuotas</label>
+    </div>
+    <div class='mt-2'>
+      <input type="checkbox" id="actas" name="actas" class="">
+      <label for="actas">Permitir gestionar actas</label>
+    </div>
+    <div class='mt-2'>
+      <input type="checkbox" id="noticias" name="noticias" class="">
+      <label for="noticias">Permitir gestionar noticias</label>
+    </div>
+    <div class='mt-2'>
+      <input type="checkbox" id="reportes" name="reportes" class="">
+      <label for="reportes">Permitir gestionar reportes</label>
+    </div>
+    
+    <!-- Botón Enviar -->
+    <div class='mt-5'>
+      <button type="submit" class="w-full bg-green-900 text-white py-2 px-4 rounded-md shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">Añadir</button>
+    </div>
+  </form>
+</div>
+</div>
+
+{% endblock content %}

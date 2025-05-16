@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="overflow-x-auto w-full p-3">
+  <h1 class='text-2xl p-5 font-bold'>Reportes</h1>
+  <a href={% url 'crear_acta' %} class='absolute top-5 right-5 bg-green-900 py-2 px-10 text-white rounded-xl'>Nuevo reporte</a>
+  <table class="min-w-full bg-white border border-gray-200 shadow-lg rounded-lg">
+    <thead class="bg-green-900 text-white">
+      <tr>
+        <th class="px-4 py-2 text-left">Nombre</th>
+        <th class="px-4 py-2 text-left">Fecha</th>
+        <th class="text-center px-4 py-2 text-left">Usuarios</th>
+      </tr>
+    </thead>
+    <tbody class="text-gray-700">
+      <!-- Ejemplo de fila -->
+      {% for acta in actas %}
+      <tr class="border-t border-gray-200 hover:bg-gray-100">
+        <td class="px-4 py-2 font-semibold text-black"><a href="{% url 'acta' acta.pk %}"><i class="fa fa-edit pr-3"></i>{{acta.nombre}}</a></td>
+        <td class="px-4 py-2">{{acta.fecha}}</td>
+        <td class="text-center px-4 py-2">{{acta.cant_usuarios}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock content %}

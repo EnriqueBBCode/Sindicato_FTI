@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="flex-grow p-6">
+    <h2 class="text-xl font-semibold mb-4"><i class="fas fa-dashboard text-gray-700"></i> Panel de Control</h2>
+
+    <!-- Cards Section -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Card for Users -->
+        <a href={% url 'usuarios' %}>
+            <div class="bg-white grid grid-cols-[60px_auto] text-green-900 shadow-md hover:shadow-xl rounded-lg p-5">
+                <i class="fas fa-users text-3xl py-2"></i>
+                <div>
+                    <h3 class="text-lg font-bold text-green-900"></i> Usuarios</h3>
+                    <p class="text-gray-700 text-xs">Gestiona los usuarios del sistema.</p> 
+                </div>
+            </div>
+        </a>
+
+        <!-- Card for Roles -->
+        <a href="{% url 'roles' %}">
+            <div class="bg-white grid grid-cols-[60px_auto] text-green-900 shadow-md hover:shadow-xl rounded-lg p-5">
+                <i class="fas fa-angle-double-up text-3xl py-2"></i>
+                <div>
+                    <h3 class="text-lg font-bold text-green-900"></i> Roles</h3>
+                    <p class="text-gray-700 text-xs">Gestiona los roles del sistema.</p> 
+                </div>
+            </div>
+        </a>
+
+        <!-- Card for Roles -->
+        <a href="{% url 'cuotas' %}">
+            <div class="bg-white grid grid-cols-[60px_auto] text-green-900 shadow-md hover:shadow-xl rounded-lg p-5">
+                <i class="fas fa-dollar text-3xl py-2"></i>
+                <div>
+                    <h3 class="text-lg font-bold text-green-900"></i> Cuotas Sindicales</h3>
+                    <p class="text-gray-700 text-xs">Gestiona las cuotas del sistema.</p> 
+                </div>
+            </div>
+        </a>
+        
+        <a href="{% url 'actas' %}">
+            <div class="bg-white grid grid-cols-[60px_auto] text-green-900 shadow-md hover:shadow-xl rounded-lg p-5">
+                <i class="fas fa-address-book text-3xl py-2"></i>
+                <div>
+                    <h3 class="text-lg font-bold text-green-900"></i> Actas</h3>
+                    <p class="text-gray-700 text-xs">Gestiona las actas del sistema.</p> 
+                </div>
+            </div>
+        </a>
+
+        <a href="#">
+            <div class="bg-white grid grid-cols-[60px_auto] text-green-900 shadow-md hover:shadow-xl rounded-lg p-5">
+                <i class="fas fa-bullhorn text-3xl py-2"></i>
+                <div>
+                    <h3 class="text-lg font-bold text-green-900"></i> Noticias</h3>
+                    <p class="text-gray-700 text-xs">Gestiona las noticias del sistema.</p> 
+                </div>
+            </div>
+        </a>
+
+        <a href="{% url 'home' %}">
+            <div class="bg-white grid grid-cols-[60px_auto] text-green-900 shadow-md hover:shadow-xl rounded-lg p-5">
+                <i class="fas fa-file text-3xl py-2"></i>
+                <div>
+                    <h3 class="text-lg font-bold text-green-900"></i> Reportes</h3>
+                    <p class="text-gray-700 text-xs">Gestiona los reportes del sistema.</p> 
+                </div>
+            </div>
+        </a>
+
+
+    </div>
+</div>
+<script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const data = {
+      labels: ['Cuota entregada', 'Cuota faltante'],
+      datasets: [{
+        data: [30, 70], // Inicialmente 30% verde y 70% blanco
+        backgroundColor: ['#052e16', '#ddd']
+      }]
+    };
+
+    const config = {
+      type: 'doughnut',
+      data: data,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
+      }
+    };
+
+    const myChart = new Chart(ctx, config);
+
+    function updateChart(newPercentage) {
+      myChart.data.datasets[0].data = [newPercentage, 100 - newPercentage];
+      myChart.update();
+    }
+</script>
+{% endblock content %}

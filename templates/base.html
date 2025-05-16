@@ -1,0 +1,65 @@
+{% load static %}
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sindicato | FTI</title>
+  <!-- Enlace al CDN de Tailwind CSS -->
+  <script src="{% static 'js/tailwind.js' %}"></script>
+  <script src="{% static 'js/jquery.js' %}"></script>
+  <link href="{% static 'css/fa.css' %}" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+    <div class="grid grid-cols-[260px_auto] h-screen">
+        <!-- Sidebar -->
+        <div class="bg-green-900 text-white py-5 px-1">
+            <h1 class="text-2xl font-bold mb-5 px-5">FTI Sindicato</h1>
+            <ul>
+                <li class="mb-3">
+                    <a href="{% url 'home' %}" class="hover:bg-green-700 py-2 px-4 rounded block">
+                        <i class='pr-2 fas fa-home'></i> Inicio
+                    </a>
+                </li>
+                <li class="mb-3">
+                    <a href="{% url 'usuarios' %}" class="hover:bg-green-700 py-2 px-4 rounded block">
+                        <i class='pr-2 fas fa-users'></i> Usuarios
+                    </a>
+                </li>
+                <li class="mb-3">
+                    <a href="{% url 'roles' %}" class="hover:bg-green-700 py-2 px-4 rounded block">
+                        <i class='pr-2 fas fa-angle-double-up'></i> Roles
+                    </a>
+                </li>
+                <li class="mb-3">
+                    <a href="{% url 'cuotas' %}" class="hover:bg-green-700 py-2 px-4 rounded block">
+                        <i class='pr-2 fas fa-dollar'></i> Cuotas
+                    </a>
+                </li>
+                <li class="mb-3">
+                    <a href="{% url 'actas' %}" class="hover:bg-green-700 py-2 px-4 rounded block">
+                        <i class='pr-2 fas fa-address-book'></i> Actas
+                    </a>
+                </li>
+                <li class="mb-3">
+                    <a href="{% url 'noticias' %}" class="hover:bg-green-700 py-2 px-4 rounded block">
+                        <i class='pr-2 fas fa-bullhorn'></i> Noticias
+                    </a>
+                </li>
+                <li class="mb-3">
+                    <a href="{% url 'actas' %}" class="hover:bg-green-700 py-2 px-4 rounded block">
+                        <i class='pr-2 fas fa-file'></i> Reportes
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        {% block content %}
+        {% endblock content %}
+
+    </div>
+
+</body>
+</html>

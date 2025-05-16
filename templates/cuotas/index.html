@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="overflow-x-auto w-full p-3">
+  <h1 class='text-2xl p-5 font-bold'>Cuotas del Sindicato</h1>
+
+  {% comment %} <h2 class='text-xl p-2 font-bold'>Cuotas</h2> {% endcomment %}
+  <div class="grid grid-cols-4 gap-2">
+
+    {% for mes in meses_faltantes %}
+      <div class="rounded shadow bg-white overflow-hidden opacity-70 relative">
+        <p class="font-bold bg-gray-700 text-white text-center py-2">Cuota de {{mes}} {{anno}}</p>
+        <div class="p-3">
+
+            <div class="flex justify-between">
+              <p class="font-semibold"><i class="fas fa-dollar text-gray-700"></i> 0 %</p>
+              <p class="text-xs text-gray-700">$ 0 / $ ?</p>
+            </div>
+            <div class="rounded-full overflow-hidden w-full h-1 bg-gray-300 mb-1">
+            </div>
+
+            <div class="flex justify-between">
+              <p class="font-semibold"><i class="fas fa-user text-gray-700"></i> 0 %</p>
+              <p class="text-xs text-gray-700">0 / ?</p>
+            </div>
+            <div class="rounded-full overflow-hidden w-full h-1 bg-gray-300 mb-1">
+            </div>
+            
+          </div>
+          <span class="px-2 py-1 text-sm bg-gray-900/50 text-white absolute bottom-2 right-2 rounded-lg">No realizado</span>
+      </div>
+    {% endfor %}
+
+    {% for cuota in cuotas %}
+      <a href="{% url 'cuota' cuota.pk %}">
+        <div class="rounded shadow bg-white overflow-hidden">
+          <p class="font-bold {% if cuota.datos_dic.porciento == 100 %}bg-green-700{% else %}bg-red-700{% endif %} text-white text-center py-2">Cuota de {{cuota.nombre}}</p>
+          <div class="p-3">
+
+              <div class="flex justify-between">
+                <p class="font-semibold"><i class="fas fa-dollar {% if cuota.datos_dic.porciento == 100 %}text-green-700{% else %}text-red-700{% endif %} "></i> {{cuota.datos_dic.porciento}} %</p>
+                <p class="text-xs text-gray-700">$ {{cuota.datos_dic.pago}} / $ {{cuota.datos_dic.total}}</p>
+              </div>
+              <div class="rounded-full overflow-hidden w-full h-1 bg-gray-300 mb-1">
+                <div class="rounded-full h-1 {% if cuota.datos_dic.porciento == 100 %}bg-green-800{% else %}bg-red-700{% endif %} w-[{{cuota.datos_dic.porciento}}%]"></div>
+              </div>
+
+              <div class="flex justify-between">
+                <p class="font-semibold"><i class="fas fa-user {% if cuota.datos_dic.porciento == 100 %}text-green-700{% else %}text-red-700{% endif %} "></i> {{cuota.datos_dic.porciento_usuarios}} %</p>
+                <p class="text-xs text-gray-700">{{cuota.datos_dic.usuarios_pago}}/{{cuota.datos_dic.usuarios}}</p>
+              </div>
+              <div class="rounded-full overflow-hidden w-full h-1 bg-gray-300 mb-1">
+                <div class="rounded-full h-1 {% if cuota.datos_dic.porciento == 100 %}bg-green-800{% else %}bg-red-700{% endif %} w-[{{cuota.datos_dic.porciento_usuarios}}%]"></div>
+              </div>
+              
+            </div>
+        </div>
+      </a>
+    {% endfor %}
+
+    {% for mes in meses_restantes %}
+    <div class="rounded shadow bg-white relative overflow-hidden opacity-70">
+      <p class="font-bold bg-gray-700 text-white text-center py-2">Cuota de {{mes}} {{anno}}</p>
+      <div class="p-3">
+
+          <div class="flex justify-between">
+            <p class="font-semibold"><i class="fas fa-dollar text-gray-700"></i> 0 %</p>
+            <p class="text-xs text-gray-700">$ 0 / $ ?</p>
+          </div>
+          <div class="rounded-full overflow-hidden w-full h-1 bg-gray-300 mb-1">
+          </div>
+
+          <div class="flex justify-between">
+            <p class="font-semibold"><i class="fas fa-user text-gray-700"></i> 0 %</p>
+            <p class="text-xs text-gray-700">0 / ?</p>
+          </div>
+          <div class="rounded-full overflow-hidden w-full h-1 bg-gray-300 mb-1">
+          </div>
+          
+        </div>
+        <span class="px-2 py-1 text-sm bg-gray-900/50 text-white absolute bottom-2 right-2 rounded-lg">Por realizar</span>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% if usuarios_atrasados|length > 0 %}
+    <table class="min-w-full bg-white border border-gray-200 shadow-lg rounded-lg my-5">
+      <thead class="bg-green-900 text-white">
+      <tr>
+          <th class="px-4 py-2 text-left">Usuarios atrasados</th>
+          <th class="text-center px-4 py-2 text-left">Salario</th>
+          <th class="text-center px-4 py-2 text-left">Deuda</th>
+      </tr>
+      </thead>
+      <tbody class="text-gray-700">
+        {% for parte in usuarios_atrasados %}
+        <tr class="border-t border-gray-200 hover:bg-gray-100">
+            <td class="px-4 py-2 font-semibold text-red-900">{{parte.usuario.first_name}}</td>
+            <td class="text-center px-4 py-2">$ {{parte.usuario.salario}}</td>
+            <td class="text-center px-4 py-2">$ {{parte.usuario.cuota}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+</div>
+<script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const data = {
+      labels: ['Cuota entregada', 'Cuota faltante'],
+      datasets: [{
+        data: [parseInt("{{cuotas.0.datos.pago}}"), parseInt("{{cuotas.0.datos.no_pago}}") ], // Inicialmente 30% verde y 70% blanco
+        backgroundColor: ['#052e16', '#ddd']
+      }]
+    };
+
+    const config = {
+      type: 'doughnut',
+      data: data,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
+      }
+    };
+
+    const myChart = new Chart(ctx, config);
+
+    function updateChart(newPercentage) {
+      myChart.data.datasets[0].data = [newPercentage, 100 - newPercentage];
+      myChart.update();
+    }
+</script>
+{% endblock content %}

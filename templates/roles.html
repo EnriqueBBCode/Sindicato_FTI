@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="overflow-x-auto w-full p-3">
+  <h1 class='text-2xl p-5 font-bold'>Usuarios del sindicato</h1>
+  <a href={% url 'crear_rol' %} class='absolute top-5 right-5 bg-green-900 py-2 px-10 text-white rounded-xl'>Nuevo rol</a>
+  <table class="min-w-full bg-white border border-gray-200 shadow-lg rounded-lg">
+    <thead class="bg-green-900 text-white">
+      <tr>
+        <th class="px-4 py-2 text-left">Nombre</th>
+        <th class="px-4 text-center py-2 text-left">Usuarios</th>
+        <th class="px-4 text-center py-2 text-left">Roles</th>
+        <th class="px-4 text-center py-2 text-left">Cuotas</th>
+        <th class="px-4 text-center py-2 text-left">Actas</th>
+        <th class="px-4 text-center py-2 text-left">Noticias</th>
+        <th class="px-4 text-center py-2 text-left">Reportes</th>
+        <th class="px-4 text-center py-2 text-left">Eliminar</th>
+      </tr>
+    </thead>
+    <tbody class="text-gray-700">
+      <!-- Ejemplo de fila -->
+      {% for r in roles %}
+      <tr class="border-t border-gray-200 hover:bg-gray-100">
+        <td class="px-4 py-2 font-semibold text-black"><a href=""><i class="fa fa-edit pr-3"></i>{{r.nombre}}</a></td>
+        <td class="px-4 py-2 text-center">{% if r.gestionar_usuarios %}<i class='fa fa-check-circle text-green-600'></i>{% else %}<i class='fa fa-times-circle text-red-600'></i>{% endif %}</td>
+        <td class="px-4 py-2 text-center">{% if r.gestionar_roles %}<i class='fa fa-check-circle text-green-600'></i>{% else %}<i class='fa fa-times-circle text-red-600'></i>{% endif %}</td>
+        <td class="px-4 py-2 text-center">{% if r.gestionar_cuotas %}<i class='fa fa-check-circle text-green-600'></i>{% else %}<i class='fa fa-times-circle text-red-600'></i>{% endif %}</td>
+        <td class="px-4 py-2 text-center">{% if r.gestionar_actas %}<i class='fa fa-check-circle text-green-600'></i>{% else %}<i class='fa fa-times-circle text-red-600'></i>{% endif %}</td>
+        <td class="px-4 py-2 text-center">{% if r.gestionar_noticias %}<i class='fa fa-check-circle text-green-600'></i>{% else %}<i class='fa fa-times-circle text-red-600'></i>{% endif %}</td>
+        <td class="px-4 py-2 text-center">{% if r.gestionar_reportes %}<i class='fa fa-check-circle text-green-600'></i>{% else %}<i class='fa fa-times-circle text-red-600'></i>{% endif %}</td>
+        <td class="text-center px-4 py-2"><a href={% url 'eliminar_rol' r.pk %}><i class='fas fa-trash text-red-600'></i></a></td>
+      </tr>
+      {% endfor %}
+      
+    </tbody>
+  </table>
+</div>
+{% endblock content %}

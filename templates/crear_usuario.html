@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="block w-full">
+<div class="max-w-md mx-auto w-full mt-10 bg-white p-6 rounded-lg shadow-md">
+  <h2 class="text-2xl font-bold text-green-900 mb-4">{% if usuario %}Editar{% else %}Añadir{% endif %} Usuario</h2>
+  <form action="#" method="POST" class="w-full">
+  {% csrf_token %}
+    <!-- Campo Nombre -->
+    <div class='mt-2'>
+      <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre y Apellidos</label>
+      <input value="{% if usuario %}{{usuario.first_name}}{% endif %}" type="text" id="nombre" name="nombre" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm p-2" placeholder="Nombre y Apellidos" required>
+    </div>
+    
+    <!-- Campo Correo -->
+    <div class='mt-2'>
+      <label for="correo" class="block text-sm font-medium text-gray-700">Correo</label>
+      <input value="{% if usuario %}{{usuario.email}}{% endif %}" type="email" id="correo" name="correo" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm p-2" placeholder="ejemplo@correo.com" required>
+    </div>
+    
+    <!-- Campo Solapín -->
+    <div class='mt-2'>
+      <label for="solapin" class="block text-sm font-medium text-gray-700">Solapín</label>
+      <input value="{% if usuario %}{{usuario.solapin}}{% endif %}" type="text" id="solapin" name="solapin" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm p-2" placeholder="Ejemplo: 1234567" required>
+    </div>
+    
+    <!-- Campo Contraseña -->
+    {% comment %} {% if usuario and user.roll.gestionar_roles %} {% endcomment %}
+    {% if usuario %}
+    <div class='mt-2'>
+    <label for="rol" class="block text-sm font-medium text-gray-700">Seleccionar rol:</label>
+    <select name='rol' id='rol' class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm p-2">
+        <option class="text-gray-700" value="">Sin rol</option>
+        {% for rol in roles %}
+        <option {% if usuario.roll.pk == rol.pk %}selected{% endif %} value={{rol.pk}}>{{rol.nombre}}</option>
+        {% endfor %}
+    </select>
+    </div>
+    {% else %}
+    <div class='mt-2'>
+      <label for="contraseña" class="block text-sm font-medium text-gray-700">Contraseña</label>
+      <input type="text" id="contraseña" name="password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm p-2" placeholder="Ingrese una contraseña segura" required>
+    </div>    
+    {% endif %}
+    
+    <!-- Campo Salario -->
+    <div class='mt-2'>
+      <label for="salario" class="block text-sm font-medium text-gray-700">Salario</label>
+      <input value="{% if usuario %}{{usuario.salario}}{% endif %}" type="number" id="salario" name="salario" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm p-2" placeholder="Ejemplo: 50000" required>
+    </div>
+    
+    <!-- Botón Enviar -->
+    <div class='mt-5'>
+      <button type="submit" class="w-full bg-green-900 text-white py-2 px-4 rounded-md shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">Guardar</button>
+    </div>
+  </form>
+</div>
+</div>
+
+{% endblock content %}
