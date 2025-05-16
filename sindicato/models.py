@@ -2,6 +2,8 @@ from django.db import models
 from datetime import datetime
 
 # Create your models here.
+# py manage.py makemigrations
+# py manage.py migrate
  
 meses = [
     "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 

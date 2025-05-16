@@ -115,7 +115,9 @@ def cuotas(request):
 
     # Almaceno todos los datos que voy a mandar al frontend
     mes_primera_cuota_registrada = int(cuotas[0].mes_id.split('.')[0])
+    
     print(mes_primera_cuota_registrada)
+    
     context = {
         'cuotas' : cuotas,
         'mes':mes,
